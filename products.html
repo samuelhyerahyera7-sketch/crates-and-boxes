@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop — Crates &amp; Boxes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body data-page="products">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="site-logo">Crates <span>&amp;</span> Boxes</a>
+      <nav class="site-nav">
+        <a href="index.html" class="nav-links">Home</a>
+        <a href="products.html" class="active nav-links">Shop</a>
+        <a href="branding.html" class="nav-links">Branding</a>
+        <a href="cart.html" class="cart-link">
+          🛒 Cart
+          <span id="cart-badge"></span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="products-page-header">
+    <h1>All Products</h1>
+    <p>Premium gift boxes in every size — ex VAT trade pricing</p>
+  </div>
+
+  <div class="products-toolbar">
+    <div id="category-tabs" class="category-tabs" style="padding:0; max-width:none;"></div>
+    <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+      <input type="search" id="search-input" placeholder="Search by name or size…" />
+      <span id="product-count"></span>
+    </div>
+  </div>
+
+  <section class="section" style="padding-top:24px;">
+    <div class="section-inner">
+      <div class="products-grid" id="products-grid"></div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <span class="footer-logo">Crates <span>&amp;</span> Boxes</span>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="products.html">Shop</a>
+      <a href="branding.html">Branding</a>
+      <a href="cart.html">Cart</a>
+    </div>
+    <p style="margin-top:16px;">All prices ex VAT &nbsp;·&nbsp; &copy; 2026 Crates &amp; Boxes</p>
+  </footer>
+
+  <script src="js/data.js?v=13"></script>
+  <script src="js/illustrations.js?v=13"></script>
+  <script src="js/cart.js?v=13"></script>
+  <script src="js/main.js?v=13"></script>
+  <script>
+    // Pre-select category from URL param
+    const urlCat = new URLSearchParams(location.search).get("cat");
+    if (urlCat) {
+      document.addEventListener("DOMContentLoaded", () => {
+        const btn = document.querySelector(`.tab-btn[data-cat="${urlCat}"]`);
+        if (btn) btn.click();
+      });
+    }
+  </script>
+</body>
+</html>
