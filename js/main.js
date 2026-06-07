@@ -194,7 +194,7 @@ function productCard(p) {
         <p class="product-dims">${p.dimensions}</p>
         <p class="product-desc">${p.description}</p>
         <div class="product-footer">
-          <span class="product-price">R${p.price.toFixed(2)} <small>ex VAT</small></span>
+          <span class="product-price">R${p.price.toFixed(2)}</span>
           <button class="add-to-cart-btn" data-id="${p.id}">Add to Cart</button>
         </div>
       </div>

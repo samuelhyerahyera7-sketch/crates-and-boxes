@@ -66,12 +66,17 @@ const PHOTOS = {
   heartLarge3:     "images/heart-large-3.jpg",        // purple large heart box – open top view
   heartLarge4:     "images/heart-large-4.jpg",        // purple large heart box – front closed low
   heartLarge5:     "images/heart-large-5.jpg",        // purple large heart box – 3/4 closed
-  // Add more as you photograph them:
-  // hatBoxBlack:    "images/hat-box-black.jpg",
-  // hatBoxPurple:   "images/hat-box-purple.jpg",
-  // squareCube:     "images/square-cube-black.jpg",
-  // heartBoxRed:    "images/heart-box-red.jpg",
-  // wineBoxBlack:   "images/wine-box-black.jpg",
+  squareCube1:    "images/square-cube-1.jpg",      // 150x150x150 red cube – open lid front
+  squareCube2:    "images/square-cube-2.jpg",      // 150x150x150 red cube – closed front
+  squareCube3:    "images/square-cube-3.jpg",      // 150x150x150 red cube – 3/4 angle closed
+  bookSmall1:     "images/book-small-1.jpg",       // small book box – front closed with bow
+  bookSmall2:     "images/book-small-2.jpg",       // small book box – 3/4 angle closed
+  bookSmall3:     "images/book-small-3.jpg",       // small book box – side view
+  roundSmall1:    "images/round-small-1.jpg",      // 100mm round hat box – front closed
+  roundSmall2:    "images/round-small-2.jpg",      // 100mm round hat box – 3/4 angle closed
+  roundSmall3:    "images/round-small-3.jpg",      // 100mm round hat box – open lid
+  bookLarge1:     "images/book-large-1.jpg",       // large book box – 3/4 angle closed
+  bookLarge2:     "images/book-large-2.jpg",       // large book box – front closed with bow
 
   // ── Unsplash fallbacks (used until real photos are added) ──
   hatBox:        "https://images.unsplash.com/photo-1556269975-7cc2cbc82480?w=600&q=80",
@@ -90,6 +95,7 @@ const PHOTOS = {
 
 const PRODUCTS = [
   // HAT BOXES
+  { id: 32, name: "Round Hat Box (S)",               category: "hat-boxes",       categoryLabel: "Hat Boxes",       color: "#EA580C", price: 30,  featured: false, image: PHOTOS.roundSmall1, images: [PHOTOS.roundSmall1, PHOTOS.roundSmall2, PHOTOS.roundSmall3], dimensions: "100mm dia × 100mm (h)", description: "Compact round hat box with a fitted lid — ideal for small bouquets, candles, and single-item luxury gifts." },
   { id: 1,  name: "Mini Hat Box (XS)",                category: "hat-boxes",       categoryLabel: "Hat Boxes",       color: "#93C5FD", price: 25,  featured: false, image: PHOTOS.hatXLarge1,  images: [PHOTOS.hatXLarge1, PHOTOS.hatXLarge2, PHOTOS.hatXLarge3], dimensions: "100mm dia × 100mm (h)",  description: "Tiny round hat box with fitted lid — ideal for jewellery, candles, and single-item luxury gifts." },
   { id: 2,  name: "Shallow Hat Box (S)",               category: "hat-boxes",       categoryLabel: "Hat Boxes",       color: "#93C5FD", price: 30,  featured: false, image: PHOTOS.hatShallowSm2, images: [PHOTOS.hatShallowSm2, PHOTOS.hatShallowSm1, PHOTOS.hatShallowSm3], dimensions: "200mm dia × 100mm (h)",  description: "Wide shallow round hat box — great for small bouquets, spa products, and personalised keepsakes." },
   { id: 3,  name: "Shallow Hat Box (L)",               category: "hat-boxes",       categoryLabel: "Hat Boxes",       color: "#93C5FD", price: 40,  featured: false, image: PHOTOS.hatShallowLg2, images: [PHOTOS.hatShallowLg2, PHOTOS.hatShallowLg1, PHOTOS.hatShallowLg3], dimensions: "287mm dia × 100mm (h)",  description: "Wide shallow round hat box — a florist favourite for floral arrangements and luxury gift displays." },
@@ -103,7 +109,7 @@ const PRODUCTS = [
   // SQUARE BOXES
   { id: 11, name: "Square Mini Box (S)",              category: "square-boxes",    categoryLabel: "Square Boxes",    color: "#1A1A1A", price: 25,  featured: false, image: PHOTOS.squareSmall1, images: [PHOTOS.squareSmall1, PHOTOS.squareSmall2, PHOTOS.squareSmall3, PHOTOS.squareSmall4, PHOTOS.squareSmall5], dimensions: "100mm × 100mm × 100mm",  description: "Compact cube gift box — ideal for jewellery, small treats, and single-item luxury presents." },
   { id: 12, name: "Square Box (M)",                   category: "square-boxes",    categoryLabel: "Square Boxes",    color: "#3D2010", price: 35,  featured: false, image: PHOTOS.squareMedium1, images: [PHOTOS.squareMedium1, PHOTOS.squareMedium2, PHOTOS.squareMedium3, PHOTOS.squareMedium4, PHOTOS.squareMedium5], dimensions: "130mm × 130mm × 130mm",  description: "Mid-size square box available in multiple colours, great for candles, cosmetics, and gift sets." },
-  { id: 13, name: "Square Cube Box",                  category: "square-boxes",    categoryLabel: "Square Boxes",    color: "#1A1A1A", price: 45,  featured: true,  image: PHOTOS.luxuryBlack,  dimensions: "150mm × 150mm × 150mm",  description: "Classic cube gift box with a separate lid, perfect for premium products and branded packaging." },
+  { id: 13, name: "Square Cube Box",                  category: "square-boxes",    categoryLabel: "Square Boxes",    color: "#B91C1C", price: 45,  featured: true,  image: PHOTOS.squareCube1, images: [PHOTOS.squareCube1, PHOTOS.squareCube2, PHOTOS.squareCube3], dimensions: "150mm × 150mm × 150mm",  description: "Classic cube gift box with a separate lid, perfect for premium products and branded packaging." },
   // CLAMSHELL BOXES
   { id: 14, name: "Small Ribbon Clamshell Box",       category: "clamshell-boxes", categoryLabel: "Clamshell Boxes", color: "#F5F0E8", price: 55,  featured: false, image: PHOTOS.clamshellLarge3, images: [PHOTOS.clamshellLarge3, PHOTOS.clamshellLarge2, PHOTOS.clamshellLarge1, PHOTOS.clamshellLarge4], dimensions: "200mm × 200mm × 100mm",  description: "Magnetic clamshell box with a pre-attached satin ribbon — opens beautifully for an impressive unboxing." },
   { id: 15, name: "Medium Ribbon Clamshell Box",      category: "clamshell-boxes", categoryLabel: "Clamshell Boxes", color: "#F5F0E8", price: 75,  featured: true,  image: PHOTOS.clamshellLarge2, images: [PHOTOS.clamshellLarge2, PHOTOS.clamshellLarge1, PHOTOS.clamshellLarge4, PHOTOS.clamshellLarge3], dimensions: "300mm × 200mm × 100mm",  description: "Rectangular magnetic gift box with ribbon closure — elegant for corporate gifts and hampers." },
@@ -123,6 +129,9 @@ const PRODUCTS = [
   { id: 27, name: "Small Heart Box",                  category: "heart-boxes",     categoryLabel: "Heart Boxes",     color: "#1A1A1A", price: 75,  featured: false, image: PHOTOS.heartSmall1,  images: [PHOTOS.heartSmall1, PHOTOS.heartSmall2, PHOTOS.heartSmall3, PHOTOS.heartSmall4],  dimensions: "250mm × 210mm × 100mm",  description: "Heart-shaped gift box — perfect for Valentine's Day, Mother's Day, and romantic hampers." },
   { id: 28, name: "Medium Heart Box",                 category: "heart-boxes",     categoryLabel: "Heart Boxes",     color: "#DC2626", price: 95,  featured: true,  image: PHOTOS.heartMedium1, images: [PHOTOS.heartMedium1, PHOTOS.heartMedium2, PHOTOS.heartMedium3, PHOTOS.heartMedium4], dimensions: "300mm × 260mm × 100mm",  description: "Medium heart box with generous depth — fits chocolates, wine, flowers, and curated pamper gifts." },
   { id: 29, name: "Large Heart Box",                  category: "heart-boxes",     categoryLabel: "Heart Boxes",     color: "#B91C1C", price: 120, featured: false, image: PHOTOS.heartLarge1, images: [PHOTOS.heartLarge1, PHOTOS.heartLarge5, PHOTOS.heartLarge3, PHOTOS.heartLarge4, PHOTOS.heartLarge2], dimensions: "360mm × 312mm × 100mm",  description: "Our largest heart box — a showstopper for luxury Valentine's, anniversary, and celebration gifts." },
+  // BOOK STYLE BOXES
+  { id: 33, name: "Large Book Style Box",             category: "clamshell-boxes", categoryLabel: "Clamshell Boxes", color: "#F5F5F5", price: 95,  featured: true,  image: PHOTOS.bookLarge1,  images: [PHOTOS.bookLarge1, PHOTOS.bookLarge2], dimensions: "280mm × 280mm × 100mm", description: "Large magnetic book-style box with a satin ribbon bow — a luxurious fold-open design perfect for hampers, clothing, and premium gifts." },
+  { id: 31, name: "Small Book Style Box",             category: "clamshell-boxes", categoryLabel: "Clamshell Boxes", color: "#F4A7B9", price: 65,  featured: true,  image: PHOTOS.bookSmall1,  images: [PHOTOS.bookSmall1, PHOTOS.bookSmall2, PHOTOS.bookSmall3], dimensions: "210mm × 140mm × 80mm", description: "Magnetic book-style gift box with a satin ribbon bow — elegant fold-open design perfect for clothing, accessories, and luxury gifts." },
   // SPECIALTY
   { id: 30, name: "Rectangle Bouquet Box",            category: "specialty-boxes", categoryLabel: "Specialty Boxes", color: "#F9F3EC", price: 85,  featured: false, image: PHOTOS.hatBox,       dimensions: "390mm × 130mm × 120mm",  description: "Open-top bouquet box with a satin ribbon handle — display your floral arrangements in luxury." },
 ];
@@ -139,8 +148,8 @@ const CATEGORIES = [
 ];
 
 const BRANDING_OPTIONS = [
-  { title: "Foiling",        icon: "✨", description: "Gold, silver, or custom colour foil stamping for logos and text — a premium metallic finish." },
-  { title: "Vinyl Printing", icon: "🖨️", description: "Full-colour vinyl labels applied to your box — ideal for names, monograms, and short-run branding." },
-  { title: "Raised Prints",  icon: "🔲", description: "Embossed or debossed printing gives your brand a tactile, luxury feel on any box surface." },
-  { title: "Full Colour",    icon: "🎨", description: "End-to-end full colour printing for maximum visual impact — perfect for brand campaigns and events." },
+  { title: "Foiling",        icon: "", description: "Gold, silver, or custom colour foil stamping for logos and text — a premium metallic finish." },
+  { title: "Vinyl Printing", icon: "", description: "Full-colour vinyl labels applied to your box — ideal for names, monograms, and short-run branding." },
+  { title: "Raised Prints",  icon: "", description: "Embossed or debossed printing gives your brand a tactile, luxury feel on any box surface." },
+  { title: "Full Colour",    icon: "", description: "End-to-end full colour printing for maximum visual impact — perfect for brand campaigns and events." },
 ];
