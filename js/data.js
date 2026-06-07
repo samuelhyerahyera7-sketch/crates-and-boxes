@@ -66,17 +66,17 @@ const PHOTOS = {
   heartLarge3:     "images/heart-large-3.jpg",        // purple large heart box – open top view
   heartLarge4:     "images/heart-large-4.jpg",        // purple large heart box – front closed low
   heartLarge5:     "images/heart-large-5.jpg",        // purple large heart box – 3/4 closed
-  squareCube1:    "images/square-cube-1.jpg",      // 150x150x150 red cube – open lid front
-  squareCube2:    "images/square-cube-2.jpg",      // 150x150x150 red cube – closed front
-  squareCube3:    "images/square-cube-3.jpg",      // 150x150x150 red cube – 3/4 angle closed
-  bookSmall1:     "images/book-small-1.jpg",       // small book box – front closed with bow
-  bookSmall2:     "images/book-small-2.jpg",       // small book box – 3/4 angle closed
-  bookSmall3:     "images/book-small-3.jpg",       // small book box – side view
-  roundSmall1:    "images/round-small-1.jpg",      // 100mm round hat box – front closed
-  roundSmall2:    "images/round-small-2.jpg",      // 100mm round hat box – 3/4 angle closed
-  roundSmall3:    "images/round-small-3.jpg",      // 100mm round hat box – open lid
-  bookLarge1:     "images/book-large-1.jpg",       // large book box – 3/4 angle closed
-  bookLarge2:     "images/book-large-2.jpg",       // large book box – front closed with bow
+  squareCube1:    "images/square-cube-1.jpg.png",      // 150x150x150 red cube – open lid front
+  squareCube2:    "images/square-cube-2.jpg.png",      // 150x150x150 red cube – closed front
+  squareCube3:    "images/square-cube-3.jpg.png",      // 150x150x150 red cube – 3/4 angle closed
+  bookSmall1:     "images/book-small-1.jpg.png",       // small book box – front closed with bow
+  bookSmall2:     "images/book-small-2.jpg.png",       // small book box – 3/4 angle closed
+  bookSmall3:     "images/book-small-3.jpg.png",       // small book box – side view
+  roundSmall1:    "images/round-small-1.jpg.png",      // 100mm round hat box – front closed
+  roundSmall2:    "images/round-small-2.jpg.png",      // 100mm round hat box – 3/4 angle closed
+  roundSmall3:    "images/round-small-3.jpg.png",      // 100mm round hat box – open lid
+  bookLarge1:     "images/book-large-1.jpg.png",       // large book box – 3/4 angle closed
+  bookLarge2:     "images/book-large-2.jpg.png",       // large book box – front closed with bow
 
   // ── Unsplash fallbacks (used until real photos are added) ──
   hatBox:        "https://images.unsplash.com/photo-1556269975-7cc2cbc82480?w=600&q=80",
