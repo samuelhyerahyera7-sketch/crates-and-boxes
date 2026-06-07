@@ -178,7 +178,8 @@ function productCard(p) {
     <div class="product-card" data-id="${p.id}">
       <div class="product-visual${multi ? ' has-gallery' : ''}">
         <div class="gallery-track" data-current="0">
-          ${imgs.map((src, i) => `<img src="${src}" alt="${p.name} – view ${i+1}" class="gallery-img${i === 0 ? ' active' : ''}" loading="lazy" />`).join('')}
+          ${imgs.map((src, i) => `<img src="${src}" alt="${p.name} – view ${i+1}" class="gallery-img${i === 0 ? ' active' : ''}" loading="lazy" onerror="this.style.display='none';this.parentElement.querySelector('.svg-fallback')?.style.setProperty('display','flex')" />`).join('')}
+          <div class="svg-fallback" style="display:none;align-items:center;justify-content:center;width:100%;height:100%;background:${p.color || '#eee'}">${getBoxIllustration(p.category.replace('-boxes',''), p.color || '#999')}</div>
         </div>
         ${multi ? `
           <button class="gallery-btn prev" onclick="galleryNav(this,-1)" aria-label="Previous">&#8249;</button>
