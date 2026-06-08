@@ -5,7 +5,7 @@
   --bg: #FAFAF8;
   --bg2: #F0EDE8;
   --black: #1A1A1A;
-  --coffee: #3B1F0E;
+  --coffee: #1C0A03;
   --grey: #6B6B6B;
   --grey-light: #E8E4DE;
   --gold: #C9A84C;
@@ -70,7 +70,7 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--black)
 
 /* ── HERO ── */
 .hero {
-  background: linear-gradient(135deg, var(--coffee) 0%, #2D1A0A 100%);
+  background: linear-gradient(135deg, var(--coffee) 0%, #120601 100%);
   color: var(--white);
   padding: 100px 24px;
   text-align: center;
