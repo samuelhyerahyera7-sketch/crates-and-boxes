@@ -75,6 +75,10 @@ const PHOTOS = {
   roundSmall1:    "images/round-small-1.jpg.png",      // 100mm round hat box – front closed
   roundSmall2:    "images/round-small-2.jpg.png",      // 100mm round hat box – 3/4 angle closed
   roundSmall3:    "images/round-small-3.jpg.png",      // 100mm round hat box – open lid
+  roundMed1:      "images/round-med-1.jpg.png",        // 250x200 purple round hat box – front closed
+  roundMed2:      "images/round-med-2.jpg.png",        // 250x200 purple round hat box – open top view
+  roundMed3:      "images/round-med-3.jpg.png",        // 250x200 purple round hat box – open 3/4 angle
+  roundMed4:      "images/round-med-4.jpg.png",        // 250x200 purple round hat box – closed 3/4 angle
   bookLarge1:     "images/book-large-1.jpg.png",       // large book box – 3/4 angle closed
   bookLarge2:     "images/book-large-2.jpg.png",       // large book box – front closed with bow
 
@@ -130,6 +134,7 @@ const PRODUCTS = [
   { id: 28, name: "Medium Heart Box",                 category: "heart-boxes",     categoryLabel: "Heart Boxes",     color: "#DC2626", price: 95,  featured: true,  image: PHOTOS.heartMedium1, images: [PHOTOS.heartMedium1, PHOTOS.heartMedium2, PHOTOS.heartMedium3, PHOTOS.heartMedium4], dimensions: "300mm × 260mm × 100mm",  description: "Medium heart box with generous depth — fits chocolates, wine, flowers, and curated pamper gifts." },
   { id: 29, name: "Large Heart Box",                  category: "heart-boxes",     categoryLabel: "Heart Boxes",     color: "#B91C1C", price: 120, featured: false, image: PHOTOS.heartLarge1, images: [PHOTOS.heartLarge1, PHOTOS.heartLarge5, PHOTOS.heartLarge3, PHOTOS.heartLarge4, PHOTOS.heartLarge2], dimensions: "360mm × 312mm × 100mm",  description: "Our largest heart box — a showstopper for luxury Valentine's, anniversary, and celebration gifts." },
   // BOOK STYLE BOXES
+  { id: 34, name: "Round Hat Box (M)",               category: "hat-boxes",       categoryLabel: "Hat Boxes",       color: "#7C3AED", price: 45,  featured: true,  image: PHOTOS.roundMed1, images: [PHOTOS.roundMed1, PHOTOS.roundMed2, PHOTOS.roundMed3, PHOTOS.roundMed4], dimensions: "250mm dia × 200mm (h)", description: "Medium round hat box with a fitted lid — ideal for bouquets, candles, and luxury gift arrangements." },
   { id: 33, name: "Large Book Style Box",             category: "clamshell-boxes", categoryLabel: "Clamshell Boxes", color: "#F5F5F5", price: 95,  featured: true,  image: PHOTOS.bookLarge1,  images: [PHOTOS.bookLarge1, PHOTOS.bookLarge2], dimensions: "280mm × 280mm × 100mm", description: "Large magnetic book-style box with a satin ribbon bow — a luxurious fold-open design perfect for hampers, clothing, and premium gifts." },
   { id: 31, name: "Small Book Style Box",             category: "clamshell-boxes", categoryLabel: "Clamshell Boxes", color: "#F4A7B9", price: 65,  featured: true,  image: PHOTOS.bookSmall1,  images: [PHOTOS.bookSmall1, PHOTOS.bookSmall2, PHOTOS.bookSmall3], dimensions: "210mm × 140mm × 80mm", description: "Magnetic book-style gift box with a satin ribbon bow — elegant fold-open design perfect for clothing, accessories, and luxury gifts." },
   // SPECIALTY
