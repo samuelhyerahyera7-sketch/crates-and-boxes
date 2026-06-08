@@ -5,6 +5,7 @@
   --bg: #FAFAF8;
   --bg2: #F0EDE8;
   --black: #1A1A1A;
+  --coffee: #3B1F0E;
   --grey: #6B6B6B;
   --grey-light: #E8E4DE;
   --gold: #C9A84C;
@@ -53,7 +54,7 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--black)
 .cart-link {
   position: relative; text-decoration: none;
   display: flex; align-items: center; gap: 8px;
-  background: var(--black); color: var(--white) !important;
+  background: var(--coffee); color: var(--white) !important;
   padding: 8px 16px; border-radius: 8px;
   font-size: 0.875rem; font-weight: 600;
   transition: background var(--transition);
@@ -69,7 +70,7 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--black)
 
 /* ── HERO ── */
 .hero {
-  background: linear-gradient(135deg, var(--black) 0%, #2D2620 100%);
+  background: linear-gradient(135deg, var(--coffee) 0%, #2D1A0A 100%);
   color: var(--white);
   padding: 100px 24px;
   text-align: center;
@@ -233,7 +234,7 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--black)
 .product-price small { font-size: 0.7rem; color: var(--grey); font-weight: 400; }
 
 .add-to-cart-btn {
-  background: var(--black); color: var(--white);
+  background: var(--coffee); color: var(--white);
   border: none; cursor: pointer;
   padding: 10px 18px; border-radius: 8px;
   font-size: 0.85rem; font-weight: 600;
@@ -423,7 +424,7 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--black)
 .cat-card p { font-size: 0.8rem; color: rgba(255,255,255,0.65); }
 
 /* ── CONTACT STRIP ── */
-.contact-strip { background: var(--black); color: var(--white); padding: 60px 24px; }
+.contact-strip { background: var(--coffee); color: var(--white); padding: 60px 24px; }
 .contact-strip-inner {
   display: flex; align-items: flex-start; justify-content: space-between;
   gap: 40px; flex-wrap: wrap;
