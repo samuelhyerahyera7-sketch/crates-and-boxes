@@ -137,7 +137,6 @@ const PRODUCTS = [
   { id: 33, name: "Large Book Style Box",             category: "clamshell-boxes", categoryLabel: "Clamshell Boxes", color: "#F5F5F5", price: 95,  featured: true,  image: PHOTOS.bookLarge1,  images: [PHOTOS.bookLarge1, PHOTOS.bookLarge2], dimensions: "280mm × 280mm × 100mm", description: "Large magnetic book-style box with a satin ribbon bow — a luxurious fold-open design perfect for hampers, clothing, and premium gifts." },
   { id: 31, name: "Small Book Style Box",             category: "clamshell-boxes", categoryLabel: "Clamshell Boxes", color: "#F4A7B9", price: 65,  featured: true,  image: PHOTOS.bookSmall1,  images: [PHOTOS.bookSmall1, PHOTOS.bookSmall2, PHOTOS.bookSmall3], dimensions: "210mm × 140mm × 80mm", description: "Magnetic book-style gift box with a satin ribbon bow — elegant fold-open design perfect for clothing, accessories, and luxury gifts." },
   // SPECIALTY
-  { id: 30, name: "Rectangle Bouquet Box",            category: "specialty-boxes", categoryLabel: "Specialty Boxes", color: "#F9F3EC", price: 85,  featured: false, image: PHOTOS.hatBox,       dimensions: "390mm × 130mm × 120mm",  description: "Open-top bouquet box with a satin ribbon handle — display your floral arrangements in luxury." },
 ];
 
 const CATEGORIES = [
