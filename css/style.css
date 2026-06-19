@@ -70,7 +70,7 @@ body { font-family: var(--font-body); background: var(--bg); color: var(--black)
 
 /* ── HERO ── */
 .hero {
-  background: linear-gradient(135deg, var(--coffee) 0%, #120601 100%);
+  background: linear-gradient(135deg, #2D2620 0%, #1A1208 100%);
   color: var(--white);
   padding: 100px 24px;
   text-align: center;
