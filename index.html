@@ -11,6 +11,7 @@
 </head>
 <body data-page="home">
 
+  <!-- HEADER -->
   <header class="site-header">
     <div class="header-inner">
       <a href="index.html" class="site-logo">Crates <span>&amp;</span> Boxes</a>
@@ -28,86 +29,104 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-inner">
-      <div class="hero-text">
-        <h1>Premium Gift Packaging <br/>Made to Impress</h1>
-        <p>Crates &amp; Boxes offers a curated range of luxury gift boxes, hat boxes, wine crates and custom-branded packaging — delivered across South Africa.</p>
-        <div class="hero-actions">
-          <a href="products.html" class="btn-primary">Shop All Products</a>
-          <a href="branding.html" class="btn-secondary">Custom Branding</a>
-        </div>
+    <div class="hero-content">
+      <span class="hero-eyebrow">Premium Gift Packaging · South Africa</span>
+      <h1>Beautiful <em>Boxes</em> for Every Occasion</h1>
+      <p>Luxury hat boxes, ribbon clamshells, heart boxes, and specialty packaging — crafted for florists, gift hampers, and brands.</p>
+      <div class="hero-actions">
+        <a href="products.html" class="btn-primary">Shop All Products</a>
+        <a href="branding.html" class="btn-secondary">Branding Options</a>
       </div>
-      <div class="hero-visual" id="hero-visual"></div>
-    </div>
-  </section>
-
-  <!-- CATEGORIES -->
-  <section class="section">
-    <div class="section-inner">
-      <div class="section-header">
-        <h2>Shop by Category</h2>
-        <p>From classic gift boxes to custom wine crates — find the perfect packaging for every occasion.</p>
-      </div>
-      <div class="category-grid" id="category-grid"></div>
     </div>
   </section>
 
   <!-- FEATURED PRODUCTS -->
-  <section class="section" style="background:var(--bg2);">
-    <div class="section-inner">
-      <div class="section-header">
-        <h2>Featured Products</h2>
-        <p>Our most popular gift box styles, available in a range of sizes and colours.</p>
-      </div>
-      <div class="products-grid" id="featured-grid"></div>
-      <div style="text-align:center; margin-top:40px;">
-        <a href="products.html" class="btn-primary">View All Products</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- WHY US -->
   <section class="section">
     <div class="section-inner">
       <div class="section-header">
-        <h2>Why Choose Crates &amp; Boxes?</h2>
+        <h2>Featured Products</h2>
+        <p>Handpicked favourites across our range — from compact cubes to dramatic display boxes.</p>
       </div>
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon">🎁</div>
-          <h3>Premium Quality</h3>
-          <p>Every box is crafted from high-quality board with a luxurious finish — your clients will notice the difference.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🎨</div>
-          <h3>Custom Branding</h3>
-          <p>Add your logo via foiling, vinyl printing or full-colour print. Minimum order quantities available for businesses.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🚚</div>
-          <h3>Fast Turnaround</h3>
-          <p>Collect from Valhalla, Centurion or let us arrange delivery. Most orders ready within 3–5 business days.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">💼</div>
-          <h3>Corporate &amp; Retail</h3>
-          <p>Whether you need 10 boxes or 1 000, we cater for corporate gifting, retail and events across South Africa.</p>
-        </div>
+      <div class="products-grid" id="featured-grid"></div>
+      <div style="text-align:center; margin-top:40px;">
+        <a href="products.html" class="btn-primary">View All 30+ Products</a>
       </div>
     </div>
   </section>
 
-  <!-- BRANDING STRIP -->
+  <!-- CATEGORY SHOWCASE -->
+  <section class="section" style="background: var(--bg2); padding-top:60px; padding-bottom:60px;">
+    <div class="section-inner">
+      <div class="section-header">
+        <h2>Shop by Category</h2>
+        <p>Find the perfect packaging for your product or occasion.</p>
+      </div>
+      <div class="category-showcase-grid">
+        <a href="products.html?cat=hat-boxes" class="cat-card" style="--cat-bg:#1A1A1A;">
+          <h3>Hat Boxes</h3>
+          <p>Mini XS to Extra Large — 10 sizes</p>
+        </a>
+        <a href="products.html?cat=clamshell-boxes" class="cat-card" style="--cat-bg:#C9A84C;">
+          <h3>Clamshell Boxes</h3>
+          <p>Magnetic ribbon gift boxes</p>
+        </a>
+        <a href="products.html?cat=heart-boxes" class="cat-card" style="--cat-bg:#DC2626;">
+          <h3>Heart Boxes</h3>
+          <p>Small, medium &amp; large</p>
+        </a>
+        <a href="products.html?cat=wine-boxes" class="cat-card" style="--cat-bg:#2D2620;">
+          <h3>Wine Boxes</h3>
+          <p>Standard, clamshell &amp; magnet</p>
+        </a>
+        <a href="products.html?cat=square-boxes" class="cat-card" style="--cat-bg:#3730A3;">
+          <h3>Square Boxes</h3>
+          <p>Mini, medium &amp; cube</p>
+        </a>
+        <a href="products.html?cat=rectangle-boxes" class="cat-card" style="--cat-bg:#3D3530;">
+          <h3>Rectangle Boxes</h3>
+          <p>Medium to extra large</p>
+        </a>
+        <a href="branding.html" class="cat-card" style="--cat-bg:#1A1A1A; grid-column: span 2;">
+          <h3>Branding &amp; Personalisation</h3>
+          <p>Foiling · Vinyl · Raised Prints · Full Colour</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <div class="features-strip">
+    <div class="features-inner">
+      <div class="feature-item">
+        <h3>Ready to Brand</h3>
+        <p>Foiling, vinyl printing, raised prints, and full colour options available.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Ribbon Included</h3>
+        <p>Clamshell boxes come with pre-attached satin ribbons.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Florist Favourite</h3>
+        <p>Designed to showcase bouquets, arrangements, and hampers.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Trade Pricing</h3>
+        <p>All the best packaging for every occasion.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT STRIP -->
   <section class="contact-strip">
     <div class="section-inner">
       <div class="contact-strip-inner">
         <div>
-          <h2>Need Branded Packaging?</h2>
-          <p>We offer custom foiling, vinyl and full-colour print on all box styles. Contact us to get a quote.</p>
+          <h2>Get in Touch</h2>
+          <p>Handmade · Keepsake · Luxury Gift Packaging</p>
         </div>
         <div class="contact-details">
           <a href="https://wa.me/27813756494" class="contact-btn whatsapp">
-            WhatsApp Us: 081 375 6494
+            WhatsApp Us
           </a>
           <div class="contact-info-list">
             <p>admin@cratesandboxes.co.za</p>
@@ -119,6 +138,7 @@
     </div>
   </section>
 
+  <!-- FOOTER -->
   <footer class="site-footer">
     <span class="footer-logo">Crates <span>&amp;</span> Boxes</span>
     <p style="margin-bottom:8px;">Premium gift packaging by Crates &amp; Boxes</p>
@@ -137,7 +157,7 @@
   </footer>
 
   <script src="js/data.js?v=2"></script>
-  <script src="js/illustrations.js?v=15"></script>
+  <script src="js/illustrations.js?v=16"></script>
   <script src="js/cart.js?v=2"></script>
   <script src="js/main.js?v=2"></script>
 </body>
