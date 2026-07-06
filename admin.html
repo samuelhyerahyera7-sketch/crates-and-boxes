@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crates &amp; Boxes — Admin</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <style>
+    /* ── CSS Variables ─────────────────────────────────────────── */
+    :root {
+      --bg:          #1C0A03;
+      --bg2:         #2a1207;
+      --bg3:         #341809;
+      --bg4:         #3e1e0b;
+      --gold:        #C9A84C;
+      --gold-dim:    #a07c2e;
+      --gold-light:  #e8c86e;
+      --text:        #f0e8d8;
+      --text-muted:  #9c8a72;
+      --danger:      #c0392b;
+      --danger-dim:  #96281b;
+      --success:     #27ae60;
+      --border:      rgba(201,168,76,0.25);
+      --border-mid:  rgba(201,168,76,0.45);
+      --radius:      6px;
+      --sidebar-w:   220px;
+      --transition:  0.18s ease;
+    }
+
+    /* ── Reset & Base ──────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5; }
+    a { color: var(--gold); text-decoration: none; }
+    button { cursor: pointer; font-family: inherit; }
+    input, textarea, select { font-family: inherit; font-size: 13px; }
+
+    /* ── Layout ────────────────────────────────────────────────── */
+    #app { display: flex; height: 100vh; overflow: hidden; }
+
+    /* ── Sidebar ───────────────────────────────────────────────── */
+    #sidebar {
+      width: var(--sidebar-w);
+      background: var(--bg2);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      overflow-y: auto;
+    }
+    .sidebar-logo {
+      padding: 22px 18px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sidebar-logo h1 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .sidebar-logo span {
+      display: block;
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+    .sidebar-nav { padding: 10px 0; flex: 1; }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 18px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: background var(--transition), color var(--transition);
+      border-left: 3px solid transparent;
+      font-size: 13px;
+      font-weight: 500;
+      user-select: none;
+    }
+    .nav-item:hover { background: var(--bg3); color: var(--text); }
+    .nav-item.active { background: var(--bg3); color: var(--gold); border-left-color: var(--gold); }
+    .nav-icon { font-size: 15px; width: 18px; text-align: center; flex-shrink: 0; }
+    .sidebar-bottom {
+      padding: 14px 18px;
+      border-top: 1px solid var(--border);
+    }
+    .btn-logout {
+      width: 100%;
+      background: transparent;
+      border: 1px solid var(--border-mid);
+      color: var(--text-muted);
+      padding: 8px 12px;
+      border-radius: var(--radius);
+      font-size: 12px;
+      transition: all var(--transition);
+    }
+    .btn-logout:hover { background: var(--danger); border-color: var(--danger); color: #fff; }
+
+    /* ── Main ──────────────────────────────────────────────────── */
+    #main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    #topbar {
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      padding: 0 28px;
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    #topbar h2 { font-size: 15px; font-weight: 600; color: var(--text); }
+    #content { flex: 1; overflow-y: auto; padding: 28px; }
+
+    /* ── Buttons ───────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: var(--radius);
+      font-size: 13px;
+      font-weight: 600;
+      border: none;
+      transition: all var(--transition);
+      white-space: nowrap;
+    }
+    .btn-primary { background: var(--gold); color: #1C0A03; }
+    .btn-primary:hover { background: var(--gold-light); }
+    .btn-secondary { background: var(--bg4); color: var(--text); border: 1px solid var(--border-mid); }
+    .btn-secondary:hover { background: var(--bg3); border-color: var(--gold); color: var(--gold); }
+    .btn-danger { background: var(--danger); color: #fff; }
+    .btn-danger:hover { background: var(--danger-dim); }
+    .btn-sm { padding: 5px 10px; font-size: 12px; }
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    /* ── Cards / Stats ─────────────────────────────────────────── */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-bottom: 28px; }
+    .stat-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .stat-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+    .stat-value { font-size: 32px; font-weight: 700; color: var(--gold); line-height: 1; }
+    .stat-sub { font-size: 11px; color: var(--text-muted); }
+
+    /* ── Table ─────────────────────────────────────────────────── */
+    .table-wrap { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+    .table-header {
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .table-title { font-size: 13px; font-weight: 600; color: var(--text); }
+    .search-box {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 7px 12px;
+      color: var(--text);
+      width: 220px;
+      outline: none;
+      transition: border-color var(--transition);
+    }
+    .search-box:focus { border-color: var(--gold); }
+    .search-box::placeholder { color: var(--text-muted); }
+    table { width: 100%; border-collapse: collapse; }
+    thead { background: var(--bg3); }
+    th {
+      padding: 10px 14px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 11px 14px;
+      border-bottom: 1px solid rgba(201,168,76,0.1);
+      vertical-align: middle;
+      font-size: 13px;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255,255,255,0.02); }
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+    .badge-gold { background: rgba(201,168,76,0.2); color: var(--gold); border: 1px solid rgba(201,168,76,0.35); }
+    .badge-muted { background: rgba(255,255,255,0.07); color: var(--text-muted); }
+    .actions-cell { display: flex; gap: 6px; align-items: center; }
+    .color-dot { width: 14px; height: 14px; border-radius: 50%; display: inline-block; border: 1px solid rgba(255,255,255,0.15); flex-shrink: 0; }
+
+    /* ── Category List ─────────────────────────────────────────── */
+    .cat-list { list-style: none; }
+    .cat-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 18px;
+      border-bottom: 1px solid rgba(201,168,76,0.1);
+      gap: 12px;
+    }
+    .cat-item:last-child { border-bottom: none; }
+    .cat-label { flex: 1; font-size: 13px; font-weight: 600; }
+    .cat-slug { font-size: 11px; color: var(--text-muted); font-family: monospace; }
+    .cat-count { font-size: 12px; color: var(--text-muted); min-width: 60px; text-align: right; }
+
+    /* ── Slide-in Panel (Form) ─────────────────────────────────── */
+    #overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 100;
+      backdrop-filter: blur(2px);
+    }
+    #overlay.open { display: block; }
+    #panel {
+      position: fixed;
+      top: 0; right: -620px;
+      width: 580px;
+      max-width: 95vw;
+      height: 100vh;
+      background: var(--bg2);
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      z-index: 101;
+      transition: right 0.28s cubic-bezier(0.4,0,0.2,1);
+      box-shadow: -8px 0 32px rgba(0,0,0,0.5);
+    }
+    #panel.open { right: 0; }
+    .panel-header {
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .panel-title { font-size: 15px; font-weight: 700; color: var(--gold); }
+    .btn-close {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 20px;
+      line-height: 1;
+      padding: 4px 8px;
+      border-radius: var(--radius);
+      transition: all var(--transition);
+    }
+    .btn-close:hover { background: var(--bg4); color: var(--text); }
+    .panel-body { flex: 1; overflow-y: auto; padding: 22px; }
+    .panel-footer {
+      padding: 16px 22px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      flex-shrink: 0;
+    }
+
+    /* ── Form Fields ───────────────────────────────────────────── */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group.full { grid-column: 1 / -1; }
+    label { font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+    .form-control {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 8px 11px;
+      color: var(--text);
+      outline: none;
+      transition: border-color var(--transition), box-shadow var(--transition);
+      width: 100%;
+    }
+    .form-control:focus { border-color: var(--gold); box-shadow: 0 0 0 2px rgba(201,168,76,0.18); }
+    textarea.form-control { resize: vertical; min-height: 72px; }
+    select.form-control { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%23C9A84C' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; padding-right: 28px; }
+    .color-row { display: flex; gap: 8px; align-items: center; }
+    .color-row input[type=color] { width: 40px; height: 36px; border: 1px solid var(--border); border-radius: var(--radius); padding: 2px; background: var(--bg3); cursor: pointer; }
+    .color-row .form-control { flex: 1; }
+    .checkbox-label { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text); cursor: pointer; text-transform: none; letter-spacing: 0; font-weight: 400; }
+    input[type=checkbox] { width: 16px; height: 16px; accent-color: var(--gold); cursor: pointer; }
+    .images-section { display: flex; flex-direction: column; gap: 8px; }
+    .image-input-row { display: flex; gap: 8px; align-items: center; }
+    .image-input-row .form-control { flex: 1; }
+    .btn-remove-img {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      border-radius: var(--radius);
+      padding: 6px 8px;
+      font-size: 14px;
+      transition: all var(--transition);
+    }
+    .btn-remove-img:hover { background: var(--danger); border-color: var(--danger); color: #fff; }
+    .btn-add-img {
+      background: none;
+      border: 1px dashed var(--border-mid);
+      color: var(--text-muted);
+      border-radius: var(--radius);
+      padding: 7px 12px;
+      font-size: 12px;
+      transition: all var(--transition);
+      width: 100%;
+    }
+    .btn-add-img:hover { border-color: var(--gold); color: var(--gold); }
+    .form-section-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 6px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+      grid-column: 1 / -1;
+    }
+
+    /* ── Login Screen ──────────────────────────────────────────── */
+    #login-screen {
+      display: none;
+      position: fixed; inset: 0;
+      background: var(--bg);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+    }
+    #login-screen.visible { display: flex; }
+    .login-card {
+      background: var(--bg2);
+      border: 1px solid var(--border-mid);
+      border-radius: 10px;
+      padding: 40px 36px;
+      width: 400px;
+      max-width: 90vw;
+    }
+    .login-logo { text-align: center; margin-bottom: 24px; }
+    .login-logo h1 { font-size: 22px; font-weight: 700; color: var(--gold); letter-spacing: 0.06em; text-transform: uppercase; }
+    .login-logo p { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+    .login-card .form-group { margin-bottom: 16px; }
+    .login-card .form-group:last-of-type { margin-bottom: 0; }
+    #login-error { color: #e74c3c; font-size: 12px; margin-top: 10px; min-height: 16px; }
+
+    /* ── Toast ─────────────────────────────────────────────────── */
+    #toast {
+      position: fixed;
+      bottom: 24px; right: 24px;
+      padding: 12px 20px;
+      border-radius: var(--radius);
+      font-size: 13px;
+      font-weight: 600;
+      z-index: 500;
+      transform: translateY(80px);
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      max-width: 360px;
+      pointer-events: none;
+    }
+    #toast.show { transform: translateY(0); opacity: 1; }
+    #toast.success { background: var(--success); color: #fff; }
+    #toast.error { background: var(--danger); color: #fff; }
+    #toast.info { background: var(--bg4); color: var(--gold); border: 1px solid var(--border-mid); }
+
+    /* ── Spinner / Loading ─────────────────────────────────────── */
+    .spinner {
+      display: inline-block;
+      width: 14px; height: 14px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Confirm Dialog ────────────────────────────────────────── */
+    #confirm-dialog {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.65);
+      z-index: 300;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(2px);
+    }
+    #confirm-dialog.open { display: flex; }
+    .confirm-card {
+      background: var(--bg2);
+      border: 1px solid var(--border-mid);
+      border-radius: 8px;
+      padding: 28px 28px 22px;
+      width: 360px;
+      max-width: 90vw;
+    }
+    .confirm-card h3 { font-size: 15px; color: var(--text); margin-bottom: 8px; }
+    .confirm-card p { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; }
+    .confirm-actions { display: flex; gap: 10px; justify-content: flex-end; }
+
+    /* ── Cat Form Modal ────────────────────────────────────────── */
+    #cat-modal {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.65);
+      z-index: 300;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(2px);
+    }
+    #cat-modal.open { display: flex; }
+    .cat-card {
+      background: var(--bg2);
+      border: 1px solid var(--border-mid);
+      border-radius: 8px;
+      padding: 28px;
+      width: 380px;
+      max-width: 90vw;
+    }
+    .cat-card h3 { font-size: 15px; color: var(--gold); margin-bottom: 18px; }
+    .cat-card .form-group { margin-bottom: 14px; }
+    .cat-card .form-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+
+    /* ── Dashboard recent table ────────────────────────────────── */
+    .section-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 14px; }
+    .empty-state { padding: 40px; text-align: center; color: var(--text-muted); font-size: 13px; }
+
+    /* ── Scrollbar ─────────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--gold-dim); }
+
+    /* ── Utility ───────────────────────────────────────────────── */
+    .flex-center { display: flex; align-items: center; gap: 8px; }
+    .ml-auto { margin-left: auto; }
+    .text-muted { color: var(--text-muted); }
+    .mt-4 { margin-top: 4px; }
+    .mt-8 { margin-top: 8px; }
+    .mt-16 { margin-top: 16px; }
+    .mt-24 { margin-top: 24px; }
+    .photo-keys-note { font-size: 11px; color: var(--text-muted); margin-top: 4px; line-height: 1.5; }
+  </style>
+</head>
+<body>
+
+<!-- ── LOGIN SCREEN ──────────────────────────────────────────────── -->
+<div id="login-screen" class="visible">
+  <div class="login-card">
+    <div class="login-logo">
+      <h1>Crates &amp; Boxes</h1>
+      <p>Admin Dashboard</p>
+    </div>
+    <div class="form-group">
+      <label for="pat-input">GitHub Personal Access Token</label>
+      <input type="password" id="pat-input" class="form-control" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="current-password">
+    </div>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:8px;margin-bottom:16px;line-height:1.6;">
+      Requires a PAT with <strong style="color:var(--gold)">repo</strong> scope.<br>
+      Create one at <a href="https://github.com/settings/tokens" target="_blank">github.com/settings/tokens</a>.
+    </p>
+    <button class="btn btn-primary" id="btn-login" style="width:100%;justify-content:center;" onclick="doLogin()">Sign In</button>
+    <div id="login-error"></div>
+  </div>
+</div>
+
+<!-- ── APP SHELL ─────────────────────────────────────────────────── -->
+<div id="app" style="display:none">
+
+  <!-- Sidebar -->
+  <nav id="sidebar">
+    <div class="sidebar-logo">
+      <h1>Crates &amp; Boxes</h1>
+      <span>Admin CMS</span>
+    </div>
+    <div class="sidebar-nav">
+      <div class="nav-item active" data-page="dashboard" onclick="navigate('dashboard')">
+        <span class="nav-icon">⬡</span> Dashboard
+      </div>
+      <div class="nav-item" data-page="products" onclick="navigate('products')">
+        <span class="nav-icon">▣</span> Products
+      </div>
+      <div class="nav-item" data-page="categories" onclick="navigate('categories')">
+        <span class="nav-icon">◈</span> Categories
+      </div>
+    </div>
+    <div class="sidebar-bottom">
+      <button class="btn-logout" onclick="doLogout()">Sign Out</button>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <div id="main">
+    <div id="topbar">
+      <h2 id="page-title">Dashboard</h2>
+      <div class="flex-center" id="topbar-actions"></div>
+    </div>
+    <div id="content"></div>
+  </div>
+</div>
+
+<!-- ── SLIDE-IN PRODUCT PANEL ────────────────────────────────────── -->
+<div id="overlay" onclick="closePanel()"></div>
+<div id="panel">
+  <div class="panel-header">
+    <span class="panel-title" id="panel-title">Add Product</span>
+    <button class="btn-close" onclick="closePanel()">✕</button>
+  </div>
+  <div class="panel-body" id="panel-body"></div>
+  <div class="panel-footer">
+    <button class="btn btn-secondary" onclick="closePanel()">Cancel</button>
+    <button class="btn btn-primary" id="btn-save-product" onclick="saveProduct()">Save Product</button>
+  </div>
+</div>
+
+<!-- ── CATEGORY MODAL ────────────────────────────────────────────── -->
+<div id="cat-modal">
+  <div class="cat-card">
+    <h3 id="cat-modal-title">Add Category</h3>
+    <div class="form-group">
+      <label for="cat-label-input">Label</label>
+      <input type="text" id="cat-label-input" class="form-control" placeholder="e.g. Specialty Boxes" oninput="autoSlug()">
+    </div>
+    <div class="form-group">
+      <label for="cat-slug-input">Slug (ID)</label>
+      <input type="text" id="cat-slug-input" class="form-control" placeholder="e.g. specialty-boxes">
+      <span style="font-size:11px;color:var(--text-muted);margin-top:3px;">Auto-generated. Edit only if needed. Cannot change existing slugs.</span>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-secondary btn-sm" onclick="closeCatModal()">Cancel</button>
+      <button class="btn btn-primary btn-sm" onclick="saveCategoryModal()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── CONFIRM DIALOG ────────────────────────────────────────────── -->
+<div id="confirm-dialog">
+  <div class="confirm-card">
+    <h3 id="confirm-title">Are you sure?</h3>
+    <p id="confirm-msg">This action cannot be undone.</p>
+    <div class="confirm-actions">
+      <button class="btn btn-secondary btn-sm" onclick="closeConfirm()">Cancel</button>
+      <button class="btn btn-danger btn-sm" id="confirm-ok" onclick="confirmOk()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── TOAST ──────────────────────────────────────────────────────── -->
+<div id="toast"></div>
+
+<!-- ── SCRIPT ─────────────────────────────────────────────────────── -->
+<script>
+'use strict';
+
+/* ─── Constants ──────────────────────────────────────────────────── */
+const REPO_OWNER = 'samuelhyerahyera7-sketch';
+const REPO_NAME  = 'crates-and-boxes';
+const FILE_PATH  = 'js/data.js';
+const TOKEN_KEY  = 'cab_gh_token';
+
+/* ─── State ──────────────────────────────────────────────────────── */
+let state = {
+  token:       null,
+  fileSha:     null,
+  rawFileText: null,   // original file text, for PHOTOS/BRANDING preservation
+  products:    [],
+  categories:  [],
+  editingProductId: null,
+  confirmCallback: null,
+  catModalMode: null,  // 'add' | 'edit'
+  catEditId: null,
+};
+
+/* ─── Auth ───────────────────────────────────────────────────────── */
+function doLogin() {
+  const pat = document.getElementById('pat-input').value.trim();
+  if (!pat) { document.getElementById('login-error').textContent = 'Please enter your PAT.'; return; }
+  state.token = pat;
+  localStorage.setItem(TOKEN_KEY, pat);
+  document.getElementById('login-error').textContent = '';
+  showApp();
+}
+
+function doLogout() {
+  localStorage.removeItem(TOKEN_KEY);
+  state.token = null;
+  state.fileSha = null;
+  state.rawFileText = null;
+  state.products = [];
+  state.categories = [];
+  document.getElementById('app').style.display = 'none';
+  const ls = document.getElementById('login-screen');
+  ls.classList.add('visible');
+  document.getElementById('pat-input').value = '';
+}
+
+function showApp() {
+  document.getElementById('login-screen').classList.remove('visible');
+  document.getElementById('app').style.display = 'flex';
+  loadData();
+}
+
+/* ─── GitHub API ─────────────────────────────────────────────────── */
+async function ghFetch(url, opts = {}) {
+  const res = await fetch(url, {
+    ...opts,
+    headers: {
+      'Authorization': `Bearer ${state.token}`,
+      'Accept': 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28',
+      ...(opts.headers || {})
+    }
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.message || `HTTP ${res.status}`);
+  }
+  return res.json();
+}
+
+async function loadData() {
+  showToast('Loading data…', 'info');
+  try {
+    const data = await ghFetch(
+      `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`
+    );
+    state.fileSha = data.sha;
+    // base64 decode
+    const raw = decodeBase64(data.content.replace(/\n/g, ''));
+    state.rawFileText = raw;
+    parseDataJs(raw);
+    showToast('Data loaded', 'success');
+    navigate(currentPage());
+  } catch(e) {
+    showToast('Load failed: ' + e.message, 'error');
+    console.error(e);
+  }
+}
+
+function decodeBase64(b64) {
+  // Works with unicode too
+  const bin = atob(b64);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return new TextDecoder().decode(bytes);
+}
+
+function encodeBase64(str) {
+  const bytes = new TextEncoder().encode(str);
+  let bin = '';
+  bytes.forEach(b => bin += String.fromCharCode(b));
+  return btoa(bin);
+}
+
+/* ─── Parse data.js ──────────────────────────────────────────────── */
+function parseDataJs(src) {
+  try {
+    // Evaluate in a sandboxed Function to extract PRODUCTS and CATEGORIES
+    // PHOTOS object is present in the source so references resolve
+    const fn = new Function(src + '\n; return { PRODUCTS, CATEGORIES };');
+    const result = fn();
+    state.products   = JSON.parse(JSON.stringify(result.PRODUCTS));
+    state.categories = JSON.parse(JSON.stringify(result.CATEGORIES));
+  } catch(e) {
+    console.error('Parse error:', e);
+    showToast('Failed to parse data.js: ' + e.message, 'error');
+  }
+}
+
+/* ─── Reconstruct data.js ────────────────────────────────────────── */
+function buildDataJs() {
+  const raw = state.rawFileText;
+
+  // Extract PHOTOS block verbatim (from start to end of PHOTOS object)
+  const photosMatch = raw.match(/([\s\S]*?const PHOTOS\s*=\s*\{[\s\S]*?\};)/);
+  const photosBlock = photosMatch ? photosMatch[1] : '// PHOTOS block missing\nconst PHOTOS = {};';
+
+  // Extract BRANDING_OPTIONS block verbatim
+  const brandingMatch = raw.match(/(const BRANDING_OPTIONS\s*=\s*\[[\s\S]*?\];)/);
+  const brandingBlock = brandingMatch ? brandingMatch[1] : '';
+
+  const productsJs = 'const PRODUCTS = ' + serializeProducts(state.products) + ';';
+  const categoriesJs = 'const CATEGORIES = ' + serializeCategories(state.categories) + ';';
+
+  return [photosBlock, '', productsJs, '', categoriesJs, '', brandingBlock, ''].join('\n');
+}
+
+function serializeProducts(products) {
+  const rows = products.map(p => {
+    const imgs = (p.images || []).map(s => jsStr(s)).join(', ');
+    return `  { id: ${p.id}, name: ${jsStr(p.name)}, category: ${jsStr(p.category)}, categoryLabel: ${jsStr(p.categoryLabel)}, color: ${jsStr(p.color)}, price: ${p.price}, featured: ${p.featured}, image: ${jsStr(p.image)}, images: [${imgs}], dimensions: ${jsStr(p.dimensions)}, description: ${jsStr(p.description)} }`;
+  });
+  return '[\n' + rows.join(',\n') + '\n]';
+}
+
+function serializeCategories(categories) {
+  const rows = categories.map(c => `  { id: ${jsStr(c.id)}, label: ${jsStr(c.label)} }`);
+  return '[\n' + rows.join(',\n') + '\n]';
+}
+
+function jsStr(s) {
+  if (s === null || s === undefined) return '""';
+  return JSON.stringify(String(s));
+}
+
+/* ─── Save to GitHub ─────────────────────────────────────────────── */
+async function saveToGitHub() {
+  const content = buildDataJs();
+  const encoded = encodeBase64(content);
+  const body = JSON.stringify({
+    message: 'admin: update products and categories',
+    content: encoded,
+    sha: state.fileSha
+  });
+  const data = await ghFetch(
+    `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`,
+    { method: 'PUT', body, headers: { 'Content-Type': 'application/json' } }
+  );
+  state.fileSha = data.content.sha;
+  return data;
+}
+
+/* ─── Navigation ─────────────────────────────────────────────────── */
+let _currentPage = 'dashboard';
+function currentPage() { return _currentPage; }
+
+function navigate(page) {
+  _currentPage = page;
+  document.querySelectorAll('.nav-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.page === page);
+  });
+  const titles = { dashboard: 'Dashboard', products: 'Products', categories: 'Categories' };
+  document.getElementById('page-title').textContent = titles[page] || page;
+  const ta = document.getElementById('topbar-actions');
+  ta.innerHTML = '';
+  if (page === 'products') {
+    ta.innerHTML = `<button class="btn btn-primary btn-sm" onclick="openProductForm(null)">+ Add Product</button>`;
+  } else if (page === 'categories') {
+    ta.innerHTML = `<button class="btn btn-primary btn-sm" onclick="openCatModal('add')">+ Add Category</button>`;
+  }
+  const renderers = { dashboard: renderDashboard, products: renderProducts, categories: renderCategories };
+  (renderers[page] || (() => {}))();
+}
+
+/* ─── Dashboard ──────────────────────────────────────────────────── */
+function renderDashboard() {
+  const total    = state.products.length;
+  const cats     = state.categories.filter(c => c.id !== 'all').length;
+  const featured = state.products.filter(p => p.featured).length;
+  const recent   = [...state.products].reverse().slice(0, 5);
+
+  document.getElementById('content').innerHTML = `
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-label">Total Products</span>
+        <span class="stat-value">${total}</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Categories</span>
+        <span class="stat-value">${cats}</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Featured</span>
+        <span class="stat-value">${featured}</span>
+      </div>
+    </div>
+    <p class="section-title">Recently Added / Last 5 Products</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Price</th>
+          <th>Featured</th>
+        </tr></thead>
+        <tbody>
+          ${recent.length === 0 ? `<tr><td colspan="4"><div class="empty-state">No products yet.</div></td></tr>` :
+            recent.map(p => `
+              <tr>
+                <td>${esc(p.name)}</td>
+                <td><span class="badge badge-muted">${esc(p.categoryLabel)}</span></td>
+                <td>R${p.price}</td>
+                <td>${p.featured ? '<span class="badge badge-gold">Featured</span>' : '<span style="color:var(--text-muted);font-size:12px;">—</span>'}</td>
+              </tr>`).join('')
+          }
+        </tbody>
+      </table>
+    </div>`;
+}
+
+/* ─── Products ───────────────────────────────────────────────────── */
+let productFilter = '';
+
+function renderProducts() {
+  const q = productFilter.toLowerCase();
+  const filtered = state.products.filter(p =>
+    p.name.toLowerCase().includes(q) ||
+    (p.categoryLabel || '').toLowerCase().includes(q) ||
+    (p.category || '').toLowerCase().includes(q)
+  );
+
+  document.getElementById('content').innerHTML = `
+    <div class="table-wrap">
+      <div class="table-header">
+        <span class="table-title">${state.products.length} Products</span>
+        <input type="search" class="search-box" placeholder="Search products…" value="${esc(productFilter)}" oninput="filterProducts(this.value)">
+      </div>
+      <table>
+        <thead><tr>
+          <th style="width:22px"></th>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Price</th>
+          <th>Featured</th>
+          <th>Actions</th>
+        </tr></thead>
+        <tbody>
+          ${filtered.length === 0 ? `<tr><td colspan="6"><div class="empty-state">No products match.</div></td></tr>` :
+            filtered.map(p => `
+              <tr>
+                <td><span class="color-dot" style="background:${esc(p.color)}"></span></td>
+                <td><strong>${esc(p.name)}</strong><div style="font-size:11px;color:var(--text-muted)">ID: ${p.id}</div></td>
+                <td><span class="badge badge-muted">${esc(p.categoryLabel)}</span></td>
+                <td>R${p.price}</td>
+                <td>${p.featured ? '<span class="badge badge-gold">★ Featured</span>' : '<span style="color:var(--text-muted)">—</span>'}</td>
+                <td>
+                  <div class="actions-cell">
+                    <button class="btn btn-secondary btn-sm" onclick="openProductForm(${p.id})">Edit</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteProduct(${p.id})">Delete</button>
+                  </div>
+                </td>
+              </tr>`).join('')
+          }
+        </tbody>
+      </table>
+    </div>`;
+}
+
+function filterProducts(q) {
+  productFilter = q;
+  renderProducts();
+}
+
+/* ─── Product Form ───────────────────────────────────────────────── */
+function openProductForm(id) {
+  state.editingProductId = id;
+  const isEdit = id !== null;
+  const p = isEdit ? state.products.find(x => x.id === id) : null;
+  document.getElementById('panel-title').textContent = isEdit ? 'Edit Product' : 'Add Product';
+
+  const catOptions = state.categories
+    .filter(c => c.id !== 'all')
+    .map(c => `<option value="${esc(c.id)}" ${p && p.category === c.id ? 'selected' : ''}>${esc(c.label)}</option>`)
+    .join('');
+
+  const extraImages = p ? (p.images || []).slice(1) : [];
+  const extraImgRows = extraImages.map((url, i) => extraImgRow(url, i)).join('');
+
+  document.getElementById('panel-body').innerHTML = `
+    <div class="form-grid">
+      <div class="form-group full">
+        <div class="form-section-title">Basic Info</div>
+      </div>
+      <div class="form-group full">
+        <label for="pf-name">Product Name *</label>
+        <input type="text" id="pf-name" class="form-control" value="${esc(p ? p.name : '')}" placeholder="e.g. Large Hat Box">
+      </div>
+      <div class="form-group">
+        <label for="pf-category">Category *</label>
+        <select id="pf-category" class="form-control" onchange="syncCategoryLabel()">
+          <option value="">— select —</option>
+          ${catOptions}
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="pf-price">Price (R) *</label>
+        <input type="number" id="pf-price" class="form-control" value="${p ? p.price : ''}" min="0" step="1" placeholder="85">
+      </div>
+      <div class="form-group full">
+        <label for="pf-dimensions">Dimensions</label>
+        <input type="text" id="pf-dimensions" class="form-control" value="${esc(p ? p.dimensions : '')}" placeholder="287mm dia × 200mm (h)">
+      </div>
+      <div class="form-group full">
+        <label for="pf-description">Description</label>
+        <textarea id="pf-description" class="form-control" rows="3" placeholder="Short product description…">${esc(p ? p.description : '')}</textarea>
+      </div>
+
+      <div class="form-group full">
+        <div class="form-section-title">Appearance</div>
+      </div>
+      <div class="form-group">
+        <label>Box Color</label>
+        <div class="color-row">
+          <input type="color" id="pf-color-picker" value="${p ? p.color : '#1A1A1A'}" oninput="document.getElementById('pf-color-hex').value=this.value">
+          <input type="text" id="pf-color-hex" class="form-control" value="${p ? p.color : '#1A1A1A'}" placeholder="#1A1A1A" oninput="syncColorPicker(this.value)">
+        </div>
+      </div>
+      <div class="form-group" style="align-self:flex-end;padding-bottom:6px;">
+        <label class="checkbox-label">
+          <input type="checkbox" id="pf-featured" ${p && p.featured ? 'checked' : ''}>
+          Mark as Featured
+        </label>
+      </div>
+
+      <div class="form-group full">
+        <div class="form-section-title">Images</div>
+      </div>
+      <div class="form-group full">
+        <label for="pf-image">Primary Image URL *</label>
+        <input type="text" id="pf-image" class="form-control" value="${esc(p ? p.image : '')}" placeholder="images/hat-xlarge-1.jpg">
+        <span class="photo-keys-note">Use local paths like <code>images/hat-xlarge-1.jpg</code> or full Unsplash URLs.</span>
+      </div>
+      <div class="form-group full">
+        <label>Additional Images (up to 4 more)</label>
+        <div class="images-section" id="extra-images">
+          ${extraImgRows}
+        </div>
+        <button class="btn-add-img mt-8" onclick="addExtraImg()" id="btn-add-extra" ${extraImages.length >= 4 ? 'disabled style="opacity:0.4;cursor:not-allowed"' : ''}>+ Add Image</button>
+      </div>
+    </div>`;
+
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('panel').classList.add('open');
+}
+
+function extraImgRow(val = '', i) {
+  return `<div class="image-input-row" id="extra-row-${i}">
+    <input type="text" class="form-control extra-img-input" value="${esc(val)}" placeholder="images/…">
+    <button class="btn-remove-img" onclick="removeExtraImg(${i})">✕</button>
+  </div>`;
+}
+
+function addExtraImg() {
+  const container = document.getElementById('extra-images');
+  const existing = container.querySelectorAll('.image-input-row').length;
+  if (existing >= 4) return;
+  const idx = Date.now(); // unique id
+  container.insertAdjacentHTML('beforeend', extraImgRow('', idx));
+  if (container.querySelectorAll('.image-input-row').length >= 4) {
+    document.getElementById('btn-add-extra').disabled = true;
+    document.getElementById('btn-add-extra').style.opacity = '0.4';
+  }
+}
+
+function removeExtraImg(i) {
+  const row = document.getElementById(`extra-row-${i}`);
+  if (row) row.remove();
+  const btn = document.getElementById('btn-add-extra');
+  if (btn) { btn.disabled = false; btn.style.opacity = ''; }
+}
+
+function syncColorPicker(val) {
+  if (/^#[0-9a-fA-F]{6}$/.test(val)) {
+    document.getElementById('pf-color-picker').value = val;
+  }
+}
+
+function syncCategoryLabel() {
+  // no-op at form level — resolved on save
+}
+
+function closePanel() {
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('panel').classList.remove('open');
+  state.editingProductId = null;
+}
+
+function saveProduct() {
+  const name        = document.getElementById('pf-name').value.trim();
+  const categoryId  = document.getElementById('pf-category').value;
+  const price       = parseFloat(document.getElementById('pf-price').value);
+  const dimensions  = document.getElementById('pf-dimensions').value.trim();
+  const description = document.getElementById('pf-description').value.trim();
+  const color       = document.getElementById('pf-color-hex').value.trim() || '#1A1A1A';
+  const featured    = document.getElementById('pf-featured').checked;
+  const image       = document.getElementById('pf-image').value.trim();
+
+  if (!name)       { showToast('Product name is required.', 'error'); return; }
+  if (!categoryId) { showToast('Please select a category.', 'error'); return; }
+  if (isNaN(price)) { showToast('Price must be a number.', 'error'); return; }
+  if (!image)      { showToast('Primary image URL is required.', 'error'); return; }
+
+  // Collect extra images
+  const extraInputs = document.querySelectorAll('.extra-img-input');
+  const extraImgs = Array.from(extraInputs).map(el => el.value.trim()).filter(Boolean);
+  const images = [image, ...extraImgs];
+
+  const catObj = state.categories.find(c => c.id === categoryId);
+  const categoryLabel = catObj ? catObj.label : categoryId;
+
+  const isEdit = state.editingProductId !== null;
+  if (isEdit) {
+    const idx = state.products.findIndex(p => p.id === state.editingProductId);
+    if (idx !== -1) {
+      state.products[idx] = { ...state.products[idx], name, category: categoryId, categoryLabel, color, price, featured, image, images, dimensions, description };
+    }
+  } else {
+    const maxId = state.products.reduce((m, p) => Math.max(m, p.id || 0), 0);
+    state.products.push({ id: maxId + 1, name, category: categoryId, categoryLabel, color, price, featured, image, images, dimensions, description });
+  }
+
+  closePanel();
+  persistAndRefresh();
+}
+
+function deleteProduct(id) {
+  const p = state.products.find(x => x.id === id);
+  openConfirm(
+    'Delete Product',
+    `Are you sure you want to delete "${p ? p.name : id}"? This cannot be undone.`,
+    () => {
+      state.products = state.products.filter(x => x.id !== id);
+      persistAndRefresh();
+    }
+  );
+}
+
+/* ─── Categories ─────────────────────────────────────────────────── */
+function renderCategories() {
+  const cats = state.categories;
+  const rows = cats.map(c => {
+    const count = state.products.filter(p => p.category === c.id).length;
+    const isAll = c.id === 'all';
+    return `<li class="cat-item">
+      <div>
+        <div class="cat-label">${esc(c.label)}</div>
+        <div class="cat-slug">${esc(c.id)}</div>
+      </div>
+      <span class="cat-count">${isAll ? '' : `${count} product${count !== 1 ? 's' : ''}`}</span>
+      <div class="actions-cell">
+        ${isAll ? '<span style="color:var(--text-muted);font-size:11px;">system</span>' : `
+          <button class="btn btn-secondary btn-sm" onclick="openCatModal('edit', '${esc(c.id)}')">Edit</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteCategory('${esc(c.id)}')">Delete</button>
+        `}
+      </div>
+    </li>`;
+  }).join('');
+
+  document.getElementById('content').innerHTML = `
+    <div class="table-wrap">
+      <div class="table-header">
+        <span class="table-title">${cats.length} Categories</span>
+      </div>
+      <ul class="cat-list">${rows || '<li class="empty-state">No categories.</li>'}</ul>
+    </div>`;
+}
+
+function openCatModal(mode, id = null) {
+  state.catModalMode = mode;
+  state.catEditId = id;
+  document.getElementById('cat-modal-title').textContent = mode === 'add' ? 'Add Category' : 'Edit Category';
+  const cat = id ? state.categories.find(c => c.id === id) : null;
+  document.getElementById('cat-label-input').value = cat ? cat.label : '';
+  document.getElementById('cat-slug-input').value  = cat ? cat.id : '';
+  document.getElementById('cat-slug-input').readOnly = mode === 'edit';
+  document.getElementById('cat-modal').classList.add('open');
+}
+
+function closeCatModal() {
+  document.getElementById('cat-modal').classList.remove('open');
+  state.catModalMode = null;
+  state.catEditId = null;
+}
+
+function autoSlug() {
+  if (state.catModalMode !== 'add') return;
+  const label = document.getElementById('cat-label-input').value;
+  const slug = label.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  document.getElementById('cat-slug-input').value = slug;
+}
+
+function saveCategoryModal() {
+  const label = document.getElementById('cat-label-input').value.trim();
+  const slug  = document.getElementById('cat-slug-input').value.trim();
+  if (!label) { showToast('Category label is required.', 'error'); return; }
+  if (!slug)  { showToast('Category slug is required.', 'error'); return; }
+
+  if (state.catModalMode === 'add') {
+    if (state.categories.find(c => c.id === slug)) {
+      showToast('A category with that slug already exists.', 'error'); return;
+    }
+    state.categories.push({ id: slug, label });
+  } else {
+    const idx = state.categories.findIndex(c => c.id === state.catEditId);
+    if (idx !== -1) state.categories[idx] = { ...state.categories[idx], label };
+  }
+
+  closeCatModal();
+  persistAndRefresh();
+}
+
+function deleteCategory(id) {
+  const count = state.products.filter(p => p.category === id).length;
+  if (count > 0) {
+    showToast(`Cannot delete: ${count} product${count !== 1 ? 's' : ''} use this category.`, 'error');
+    return;
+  }
+  const cat = state.categories.find(c => c.id === id);
+  openConfirm(
+    'Delete Category',
+    `Delete category "${cat ? cat.label : id}"? This cannot be undone.`,
+    () => {
+      state.categories = state.categories.filter(c => c.id !== id);
+      persistAndRefresh();
+    }
+  );
+}
+
+/* ─── Persist & Refresh ──────────────────────────────────────────── */
+async function persistAndRefresh() {
+  const btn = document.querySelector('#topbar-actions .btn') || null;
+  const origText = btn ? btn.innerHTML : '';
+  if (btn) { btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Saving…'; }
+
+  showToast('Saving to GitHub…', 'info');
+  try {
+    await saveToGitHub();
+    showToast('Saved — deploying in ~30s', 'success');
+  } catch(e) {
+    showToast('Save failed: ' + e.message, 'error');
+    console.error(e);
+  } finally {
+    if (btn) { btn.disabled = false; btn.innerHTML = origText; }
+    navigate(_currentPage);
+  }
+}
+
+/* ─── Confirm Dialog ─────────────────────────────────────────────── */
+function openConfirm(title, msg, cb) {
+  state.confirmCallback = cb;
+  document.getElementById('confirm-title').textContent = title;
+  document.getElementById('confirm-msg').textContent = msg;
+  document.getElementById('confirm-dialog').classList.add('open');
+}
+function closeConfirm() {
+  document.getElementById('confirm-dialog').classList.remove('open');
+  state.confirmCallback = null;
+}
+function confirmOk() {
+  if (state.confirmCallback) state.confirmCallback();
+  closeConfirm();
+}
+
+/* ─── Toast ──────────────────────────────────────────────────────── */
+let toastTimer = null;
+function showToast(msg, type = 'info') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = `show ${type}`;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { el.className = ''; }, 3500);
+}
+
+/* ─── Escape HTML ────────────────────────────────────────────────── */
+function esc(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+/* ─── Boot ───────────────────────────────────────────────────────── */
+(function init() {
+  const stored = localStorage.getItem(TOKEN_KEY);
+  if (stored) {
+    state.token = stored;
+    showApp();
+  }
+  // Enter on login
+  document.getElementById('pat-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') doLogin();
+  });
+})();
+</script>
+</body>
+</html>
