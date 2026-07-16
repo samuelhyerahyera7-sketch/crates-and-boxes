@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment — Crates &amp; Boxes</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .return-page {
+      min-height: 70vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 24px;
+    }
+    .return-card {
+      background: var(--surface, #fff);
+      border-radius: 14px;
+      padding: 52px 48px;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.10);
+    }
+    .return-icon {
+      font-size: 56px;
+      margin-bottom: 20px;
+      line-height: 1;
+    }
+    .return-card h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+    .return-card p {
+      color: #666;
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 8px;
+    }
+    .return-ref {
+      font-size: 12px;
+      color: #999;
+      margin-top: 16px;
+      margin-bottom: 28px;
+      font-family: monospace;
+    }
+    .return-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-gold {
+      background: #C9A84C;
+      color: #1C0A03;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 14px;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.15s;
+    }
+    .btn-gold:hover { background: #e8c86e; }
+    .btn-outline {
+      border: 1px solid #C9A84C;
+      color: #C9A84C;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.15s;
+    }
+    .btn-outline:hover { background: rgba(201,168,76,0.08); }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="site-logo">Crates <span>&amp;</span> Boxes</a>
+      <nav class="site-nav">
+        <a href="index.html" class="nav-links">Home</a>
+        <a href="products.html" class="nav-links">Shop</a>
+        <a href="cart.html" class="cart-link">
+          🛒 Cart
+          <span id="cart-badge"></span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="return-page">
+    <div class="return-card" id="return-card">
+      <div class="return-icon" id="return-icon">⏳</div>
+      <h1 id="return-heading">Processing…</h1>
+      <p id="return-msg">Please wait while we confirm your payment.</p>
+      <p class="return-ref" id="return-ref"></p>
+      <div class="return-actions" id="return-actions" style="display:none"></div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <span class="footer-logo">Crates <span>&amp;</span> Boxes</span>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="products.html">Shop</a>
+      <a href="cart.html">Cart</a>
+    </div>
+    <p style="margin-top:16px;">&copy; 2026 Crates &amp; Boxes</p>
+  </footer>
+
+  <script src="js/data.js?v=2"></script>
+  <script src="js/cart.js?v=2"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      Cart.updateCartBadge();
+
+      const params  = new URLSearchParams(window.location.search);
+      const status  = (params.get('status') || params.get('Status') || '').toLowerCase();
+      const ref     = params.get('merchantReference') || params.get('MerchantReference') || '';
+      const transId = params.get('transactionId') || params.get('TransactionId') || '';
+
+      const icon    = document.getElementById('return-icon');
+      const heading = document.getElementById('return-heading');
+      const msg     = document.getElementById('return-msg');
+      const refEl   = document.getElementById('return-ref');
+      const actions = document.getElementById('return-actions');
+
+      if (ref)     refEl.textContent = `Reference: ${ref}${transId ? ' · ' + transId : ''}`;
+      actions.style.display = 'flex';
+
+      if (status === 'complete' || status === 'success' || status === 'paid') {
+        icon.textContent    = '✅';
+        heading.textContent = 'Payment Successful!';
+        msg.textContent     = 'Thank you for your order. We\'ll be in touch shortly to confirm and arrange delivery.';
+        Cart.clearCart();
+        actions.innerHTML = `
+          <a href="products.html" class="btn-gold">Continue Shopping</a>
+          <a href="index.html" class="btn-outline">Home</a>`;
+      } else if (status === 'cancelled' || status === 'cancel') {
+        icon.textContent    = '❌';
+        heading.textContent = 'Payment Cancelled';
+        msg.textContent     = 'Your payment was cancelled. Your cart has been saved — you can try again whenever you\'re ready.';
+        actions.innerHTML = `
+          <a href="cart.html" class="btn-gold">Back to Cart</a>
+          <a href="products.html" class="btn-outline">Continue Shopping</a>`;
+      } else if (status === 'error' || status === 'failed') {
+        icon.textContent    = '⚠️';
+        heading.textContent = 'Payment Failed';
+        msg.textContent     = 'Something went wrong with your payment. Please try again or contact us for assistance.';
+        actions.innerHTML = `
+          <a href="cart.html" class="btn-gold">Try Again</a>
+          <a href="index.html" class="btn-outline">Home</a>`;
+      } else {
+        // No status param — could be a direct visit or unknown state
+        icon.textContent    = '🔄';
+        heading.textContent = 'Payment Pending';
+        msg.textContent     = 'We haven\'t received a payment confirmation yet. If you completed payment, we\'ll confirm your order by email shortly.';
+        actions.innerHTML = `
+          <a href="index.html" class="btn-gold">Go Home</a>
+          <a href="cart.html" class="btn-outline">View Cart</a>`;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -17,8 +17,7 @@
       <nav class="site-nav">
         <a href="index.html" class="nav-links">Home</a>
         <a href="products.html" class="nav-links">Shop</a>
-        <a href="byob-3d.html" class="nav-links">3D Builder</a>
-        <a href="cart.html" class="cart-link active">
+<a href="cart.html" class="cart-link active">
           🛒 Cart
           <span id="cart-badge"></span>
         </a>
@@ -54,10 +53,10 @@
           <span>Total</span>
           <span id="total">R0.00</span>
         </div>
-        <p class="summary-note">Contact us to confirm your order and arrange payment.</p>
-        <button class="checkout-btn" onclick="alert('Checkout coming soon! Contact us to place your order.')">
+        <button class="checkout-btn" id="checkout-btn" onclick="startCheckout()">
           Proceed to Checkout
         </button>
+        <p class="summary-note" id="checkout-error" style="color:#c0392b;display:none;"></p>
         <button id="clear-cart" class="clear-cart-link">Clear cart</button>
       </div>
     </div>
@@ -82,5 +81,40 @@
   <script src="js/illustrations.js?v=14"></script>
   <script src="js/cart.js?v=2"></script>
   <script src="js/main.js?v=2"></script>
+  <script>
+    async function startCheckout() {
+      const btn   = document.getElementById('checkout-btn');
+      const errEl = document.getElementById('checkout-error');
+      const total = Cart.getTotal();
+
+      if (total <= 0) return;
+
+      btn.disabled     = true;
+      btn.textContent  = 'Processing…';
+      errEl.style.display = 'none';
+
+      try {
+        const res = await fetch('/api/create-payment', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({ amount: Math.round(total * 100) / 100 }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok || !data.redirectUrl) {
+          throw new Error(data.error || 'Could not start checkout. Please try again.');
+        }
+
+        window.location.href = data.redirectUrl;
+
+      } catch (err) {
+        errEl.textContent    = err.message;
+        errEl.style.display  = 'block';
+        btn.disabled         = false;
+        btn.textContent      = 'Proceed to Checkout';
+      }
+    }
+  </script>
 </body>
 </html>
