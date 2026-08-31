@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /cart.html
+Disallow: /payment-return.html
+
+Sitemap: https://www.cratesandboxes.co.za/sitemap.xml

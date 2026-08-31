@@ -22,8 +22,9 @@ function initHome() {
 function initProducts() {
   const grid = document.getElementById("products-grid");
   const searchInput = document.getElementById("search-input");
+  const urlSearch = new URLSearchParams(location.search).get("search") || "";
   let activeCategory = "all";
-  let searchQuery = "";
+  let searchQuery = urlSearch.trim();
 
   function render() {
     let list = PRODUCTS;
@@ -60,6 +61,7 @@ function initProducts() {
 
   // Search
   if (searchInput) {
+    if (searchQuery) searchInput.value = searchQuery;
     searchInput.addEventListener("input", (e) => {
       searchQuery = e.target.value.trim();
       render();
